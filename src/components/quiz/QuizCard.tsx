@@ -1,13 +1,14 @@
 import { FC } from "react"
+import { IQuizResponse } from "../../types/quiz/quiz.types"
 
-const QuizCard: FC = () => {
+const QuizCard: FC<{ quiz: IQuizResponse }> = ({ quiz }) => {
   return (
     <div className="flex flex-col border-1 text-start min-h-40 justify-between py-2 px-3">
-      <div className="">
-        <div>Quiz Name</div>
-        <div>Quiz Description</div>
+      <div>
+        <div>{quiz.name}</div>
+        <div>{quiz.description}</div>
       </div>
-      <div>Quiz Count</div>
+      <div>Questions: {quiz._count.questions}</div>
     </div>
   )
 }

@@ -1,18 +1,20 @@
-// import { PaginationResponse } from "../types/pagination"
 import { axiosClassic } from "../api"
-import { PaginationResponse } from "../types/pagination"
-import { IQuiz, QuizFormStateType, QuizQueryParamsType } from "../types/quiz/quiz.types"
+import { IQuiz, CreateQuizType, IQuizResponse } from "../types/quiz/quiz.types"
 
 class QuizzesService {
   private BASE_URL = "/quizzes"
 
-  getQuizzes = async (params?: QuizQueryParamsType) => {
-    const queryParams = Object.entries(params || {})
-      .map(([param, value]) => `${param}=${value}`)
-      .join("&")
-    const response = await axiosClassic.get<PaginationResponse<IQuiz>>(
-      `${this.BASE_URL}?${queryParams}`
-    )
+  // getQuizzes = async (params?: QuizQueryParamsType) => {
+  //   const queryParams = Object.entries(params || {})
+  //     .map(([param, value]) => `${param}=${value}`)
+  //     .join("&")
+  //   const response = await axiosClassic.get<PaginationResponse<IQuiz>>(
+  //     `${this.BASE_URL}?${queryParams}`
+  //   )
+  //   return response
+  // }
+  getQuizzes = async () => {
+    const response = await axiosClassic.get<IQuizResponse[]>(`${this.BASE_URL}`)
     return response
   }
 
@@ -21,13 +23,13 @@ class QuizzesService {
     return response
   }
 
-  createQuiz = async (task: QuizFormStateType) => {
-    const response = await axiosClassic.post(this.BASE_URL, task)
+  createQuiz = async (quiz: CreateQuizType) => {
+    const response = await axiosClassic.post(this.BASE_URL, quiz)
     return response
   }
 
-  updateQuiz = async (id: string, task: QuizFormStateType) => {
-    const response = await axiosClassic.patch(`${this.BASE_URL}/${id}`, task)
+  updateQuiz = async (id: string, quiz: CreateQuizType) => {
+    const response = await axiosClassic.patch(`${this.BASE_URL}/${id}`, quiz)
     return response
   }
 

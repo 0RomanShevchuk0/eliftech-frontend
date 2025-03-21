@@ -4,26 +4,24 @@ import { UseFormRegisterReturn, FieldError } from "react-hook-form"
 
 interface FormFieldProps {
   label: string
-  type: "text" | "password" | "email" | "date" | "color" | "file"
+  type: "text" | "password" | "email" | "date" | "color" | "select"
   register: UseFormRegisterReturn
   error?: FieldError
-  acceptFileTypes?: string[]
 }
 
-const FormField: FC<FormFieldProps> = ({ label, type, error, register, acceptFileTypes }) => (
-  <div className="flex flex-col items-start gap-1">
-    <label className="text-gray-700 mb-1">{label}</label>
-    <input
-      className={clsx(
-        "border-1 border-gray-800 px-0 focus:border-black outline-none w-full",
-        error && "border-red-500"
-      )}
-      type={type}
-      accept={type === "file" ? acceptFileTypes?.join(", ") : undefined}
-      {...register}
-    />
-    {error && <p className="text-red-500 text-sm">{error.message}</p>}
-  </div>
-)
+const FormField: FC<FormFieldProps> = ({ label, type, error, register }) => {
+  const baseClasses = "border-1 border-gray-800 px-2 py-1 focus:border-black outline-none w-full"
+  const errorClasses = error ? "border-red-500" : ""
+
+  return (
+    <div className={clsx("flex flex-col items-start gap-1 w-full")}>
+      <label className="text-gray-700 mb-1">{label}</label>
+
+      <input className={clsx(baseClasses, errorClasses)} type={type} {...register} />
+
+      {error && <p className="text-red-500 text-sm">{error.message}</p>}
+    </div>
+  )
+}
 
 export default FormField

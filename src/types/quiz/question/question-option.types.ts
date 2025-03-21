@@ -4,4 +4,4 @@ export interface IQuestionOption {
   question_id: string
 }
 
-export type QuestionOptionFormStateType = Omit<IQuestionOption, "id">
+export interface ICreateQuizOption extends Omit<IQuestionOption, "id" | "question_id"> {}

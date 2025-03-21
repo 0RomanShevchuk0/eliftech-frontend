@@ -9,14 +9,22 @@ import { appQueries } from "../config/querues.config"
 import Button from "../components/ui/Button"
 
 const QuizzesPage: FC = () => {
-  const { data, isLoading, error } = useQuery({
+  const {
+    data: response,
+    isLoading,
+    // error,
+  } = useQuery({
     queryKey: [appQueries.quizzes],
     queryFn: () => quizzesService.getQuizzes(),
     retry: false,
   })
-  console.log(" data:", data)
+  console.log(" response:", response)
 
-  const Cards = [1, 2, 3, 4, 5].map(() => <QuizCard />)
+  if (isLoading) {
+    return "Loading..."
+  }
+
+  const Cards = response?.data.map((q) => <QuizCard key={q.id} quiz={q} />)
 
   return (
     <div>
