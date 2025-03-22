@@ -1,15 +1,15 @@
 import { FC } from "react"
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
-import { CreateQuizType, IQuiz } from "../../types/quiz/quiz.types"
-import FormField from "../ui/FormField"
-import Button from "../ui/Button"
+import { CreateQuizType, IQuiz } from "../../../types/quiz/quiz.types"
+import FormField from "../../ui/FormField"
+import Button from "../../ui/Button"
 import { useMutation } from "@tanstack/react-query"
-import { quizzesService } from "../../services/quizzes.service"
+import { quizzesService } from "../../../services/quizzes.service"
 import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router"
-import { appRoutes } from "../../config/routes.config"
+import { appRoutes } from "../../../config/routes.config"
 import { toast } from "react-hot-toast"
 import FormQuestion from "./question/FormQuestion"
-import { HTTP_STATUS } from "../../constants/httpStatuses"
+import { HTTP_STATUS } from "../../../constants/httpStatuses"
 
 const QuizForm: FC = () => {
   const { quizId } = useParams({ strict: false })
@@ -47,7 +47,7 @@ const QuizForm: FC = () => {
     }
   }
 
-  const fieldsArray = useFieldArray({
+  const questionsFieldArray = useFieldArray({
     name: "questions",
     control: control,
     rules: {
@@ -75,12 +75,11 @@ const QuizForm: FC = () => {
       />
 
       <div className="flex flex-col gap-6 w-full">
-        {fieldsArray.fields.map((field, index) => (
+        {questionsFieldArray.fields.map((field, index) => (
           <FormQuestion
             key={field.id}
             control={control}
-            field={field}
-            fieldsArray={fieldsArray}
+            questionsFieldArray={questionsFieldArray}
             index={index}
             register={register}
           />
@@ -91,10 +90,10 @@ const QuizForm: FC = () => {
         type="button"
         variant="secondary"
         onClick={() => {
-          fieldsArray.append({
+          questionsFieldArray.append({
             type: "TEXT",
             title: "",
-            order: fieldsArray.fields.length + 1,
+            order: questionsFieldArray.fields.length + 1,
             options: [],
           })
         }}

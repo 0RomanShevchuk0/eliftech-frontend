@@ -1,6 +1,6 @@
 import { FC } from "react"
 import Heading from "../components/ui/Heading"
-import QuizForm from "../components/quiz/QuizForm"
+import QuizForm from "../components/quiz/quiz-form/QuizForm"
 
 const QuizBuilderPage: FC = () => {
   return (
