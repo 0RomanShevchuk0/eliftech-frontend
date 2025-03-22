@@ -3,12 +3,13 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { CreateQuizType, IQuiz } from "../../types/quiz/quiz.types"
 import FormField from "../ui/FormField"
 import Button from "../ui/Button"
-import FormQuestions from "./question/FormQuestions"
 import { useMutation } from "@tanstack/react-query"
 import { quizzesService } from "../../services/quizzes.service"
 import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router"
 import { appRoutes } from "../../config/routes.config"
 import { toast } from "react-hot-toast"
+import FormQuestion from "./question/FormQuestion"
+import { HTTP_STATUS } from "../../constants/httpStatuses"
 
 const QuizForm: FC = () => {
   const { quizId } = useParams({ strict: false })
@@ -27,6 +28,8 @@ const QuizForm: FC = () => {
     mutationFn: (data: CreateQuizType) => quizzesService.createQuiz(data),
   })
 
+  // TODO: add update func
+
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<CreateQuizType> = async (data) => {
@@ -34,7 +37,7 @@ const QuizForm: FC = () => {
 
     try {
       const { status } = await quizMutation.mutateAsync(data)
-      if (status === 201) {
+      if (status === HTTP_STATUS.CREATED_201) {
         toast.success("Quiz successfully created!")
         navigate({ to: appRoutes.quizzes })
       }
@@ -71,7 +74,18 @@ const QuizForm: FC = () => {
         error={errors.name}
       />
 
-      <FormQuestions register={register} fieldsArray={fieldsArray} />
+      <div className="flex flex-col gap-6 w-full">
+        {fieldsArray.fields.map((field, index) => (
+          <FormQuestion
+            key={field.id}
+            control={control}
+            field={field}
+            fieldsArray={fieldsArray}
+            index={index}
+            register={register}
+          />
+        ))}
+      </div>
 
       <Button
         type="button"
