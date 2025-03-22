@@ -1,8 +1,8 @@
+import { IQuizFormState } from "@/types/quiz/quiz.types"
 import { FC } from "react"
 import { Control, UseFormRegister, useFieldArray } from "react-hook-form"
-import { IQuizFormState } from "../../../../types/quiz/quiz.types"
-import Button from "../../../ui/Button"
 import QuestionOptionItem from "./QuestionOptionItem"
+import Button from "@/components/ui/Button"
 
 interface IProps {
   register: UseFormRegister<IQuizFormState>

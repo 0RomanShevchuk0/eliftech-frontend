@@ -1,5 +1,5 @@
-import { axiosClassic } from "../api"
-import { IQuizFormState, IQuizResponse } from "../types/quiz/quiz.types"
+import { axiosClassic } from "@/api"
+import { IQuizFormState, IQuizResponse } from "@/types/quiz/quiz.types"
 
 class QuizzesService {
   private BASE_URL = "/quizzes"

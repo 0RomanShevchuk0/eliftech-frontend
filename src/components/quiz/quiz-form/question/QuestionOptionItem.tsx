@@ -1,8 +1,8 @@
+import Button from "@/components/ui/Button"
+import Input from "@/components/ui/Input"
+import { IQuizFormState } from "@/types/quiz/quiz.types"
 import { FC } from "react"
 import { UseFieldArrayRemove, UseFormRegister } from "react-hook-form"
-import { IQuizFormState } from "../../../../types/quiz/quiz.types"
-import Button from "../../../ui/Button"
-import Input from "../../../ui/Input"
 
 interface IProps {
   register: UseFormRegister<IQuizFormState>

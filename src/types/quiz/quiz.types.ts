@@ -1,5 +1,5 @@
 import { PaginationParamsType } from "../pagination"
-import { IQuestionFormState, IQuestion } from "./question/question.types"
+import { IQuestion, IQuestionFormState } from "./question/question.types"
 
 export interface IQuiz {
   id: string

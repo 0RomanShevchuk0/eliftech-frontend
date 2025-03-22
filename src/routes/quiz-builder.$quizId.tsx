@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { appRoutes } from "../config/routes.config"
-import QuizBuilderPage from "../pages/QuizBuilderPage"
-import { quizzesService } from "../services/quizzes.service"
 import { toast } from "react-hot-toast"
 import { AxiosError } from "axios"
-import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGES } from "../constants/errorMessages"
+import { appRoutes } from "@/config/routes.config"
+import QuizBuilderPage from "@/pages/QuizBuilderPage"
+import { quizzesService } from "@/services/quizzes.service"
+import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGES } from "@/constants/errorMessages"
 
 export const Route = createFileRoute(appRoutes.quizBuilderQuizId)({
   component: QuizBuilderPage,

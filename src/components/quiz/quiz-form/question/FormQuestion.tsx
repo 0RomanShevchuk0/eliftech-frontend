@@ -1,11 +1,11 @@
+import Button from "@/components/ui/Button"
+import Input from "@/components/ui/Input"
+import Select from "@/components/ui/Select"
+import { QuestionTypesEnum } from "@/types/quiz/question/enums"
+import { IQuizFormState } from "@/types/quiz/quiz.types"
 import { FC } from "react"
 import { Control, UseFieldArrayReturn, UseFormRegister, useWatch } from "react-hook-form"
-import { IQuizFormState } from "../../../../types/quiz/quiz.types"
 import QuestionOptions from "./QuestionOptions"
-import Input from "../../../ui/Input"
-import Select from "../../../ui/Select"
-import Button from "../../../ui/Button"
-import { QuestionTypesEnum } from "../../../../types/quiz/question/enums"
 
 interface IProps {
   register: UseFormRegister<IQuizFormState>
@@ -29,7 +29,7 @@ const FormQuestion: FC<IProps> = ({ register, control, index, questionsFieldArra
   return (
     <div>
       <div key={question.id} className="flex items-end gap-6 w-full">
-        <span className="font-semibold">{question.order}.</span>
+        <span className="font-semibold">{index + 1}.</span>
         <div className="flex flex-col gap-3 h-full w-full">
           <div className="flex gap-3 items-end w-full">
             <div className="flex flex-col items-start gap-1 w-full">

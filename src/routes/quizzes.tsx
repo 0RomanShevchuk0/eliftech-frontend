@@ -1,6 +1,7 @@
+import { appRoutes } from "@/config/routes.config"
+import QuizzesPage from "@/pages/QuizzesPage"
 import { createFileRoute } from "@tanstack/react-router"
-import QuizzesPage from "../pages/QuizzesPage"
 
-export const Route = createFileRoute("/quizzes")({
+export const Route = createFileRoute(appRoutes.quizzes)({
   component: QuizzesPage,
 })

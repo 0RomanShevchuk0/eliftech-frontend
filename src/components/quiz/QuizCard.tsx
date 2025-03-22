@@ -1,5 +1,5 @@
+import { IQuizResponse } from "@/types/quiz/quiz.types"
 import { FC } from "react"
-import { IQuizResponse } from "../../types/quiz/quiz.types"
 
 const QuizCard: FC<{ quiz: IQuizResponse }> = ({ quiz }) => {
   return (

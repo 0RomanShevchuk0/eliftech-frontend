@@ -1,14 +1,14 @@
 import { FC } from "react"
 import { SubmitHandler } from "react-hook-form"
-import { IQuizFormState } from "../../../types/quiz/quiz.types"
-import FormField from "../../ui/FormField"
-import Button from "../../ui/Button"
 import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router"
-import { appRoutes } from "../../../config/routes.config"
 import { toast } from "react-hot-toast"
+import { appRoutes } from "@/config/routes.config"
+import { useQuizForm } from "@/hooks/useQuizForm"
+import { useQuizMutations } from "@/hooks/useQuizMutations"
+import { IQuizFormState } from "@/types/quiz/quiz.types"
+import FormField from "@/components/ui/FormField"
 import FormQuestion from "./question/FormQuestion"
-import { useQuizForm } from "../../../hooks/useQuizForm"
-import { useQuizMutations } from "../../../hooks/useQuizMutations"
+import Button from "@/components/ui/Button"
 
 const QuizForm: FC = () => {
   const params = useParams({ strict: false })
@@ -28,14 +28,22 @@ const QuizForm: FC = () => {
   const { updateQuizMutation, createQuizMutation } = useQuizMutations()
 
   const onSubmit: SubmitHandler<IQuizFormState> = async (data) => {
+    const orderedQuestionsQuiz: IQuizFormState = {
+      ...data,
+      questions: data.questions.map((q, i) => ({
+        ...q,
+        order: i + 1,
+      })),
+    }
+
     try {
       let toastMessage = "Quiz successfully created!"
       if (isNewQuiz) {
-        await createQuizMutation.mutateAsync(data)
+        await createQuizMutation.mutateAsync(orderedQuestionsQuiz)
       } else {
         toastMessage = "Quiz successfully updated!"
 
-        await updateQuizMutation.mutateAsync({ quizId: quiz.id, data })
+        await updateQuizMutation.mutateAsync({ quizId: quiz.id, data: orderedQuestionsQuiz })
       }
 
       toast.success(toastMessage)
