@@ -4,9 +4,9 @@ import { Link } from "@tanstack/react-router"
 import { appQueries } from "@/config/querues.config"
 import { quizzesService } from "@/services/quizzes.service"
 import QuizCard from "@/components/quiz/QuizCard"
-import { Heading } from "lucide-react"
 import Button from "@/components/ui/Button"
 import { appRoutes } from "@/config/routes.config"
+import Heading from "@/components/ui/Heading"
 
 const QuizzesPage: FC = () => {
   const {

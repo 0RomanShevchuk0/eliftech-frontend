@@ -1,7 +1,6 @@
 import { FC } from "react"
 import { SubmitHandler } from "react-hook-form"
 import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router"
-import { toast } from "react-hot-toast"
 import { appRoutes } from "@/config/routes.config"
 import { useQuizForm } from "@/hooks/useQuizForm"
 import { useQuizMutations } from "@/hooks/useQuizMutations"
@@ -36,24 +35,13 @@ const QuizForm: FC = () => {
       })),
     }
 
-    try {
-      let toastMessage = "Quiz successfully created!"
-      if (isNewQuiz) {
-        await createQuizMutation.mutateAsync(orderedQuestionsQuiz)
-      } else {
-        toastMessage = "Quiz successfully updated!"
-
-        await updateQuizMutation.mutateAsync({ quizId: quiz.id, data: orderedQuestionsQuiz })
-      }
-
-      toast.success(toastMessage)
-
-      navigate({ to: appRoutes.quizzes })
-    } catch (error) {
-      const errorMessage = `Error ${isNewQuiz ? "creating" : "updating"} quiz`
-      console.error(errorMessage, error)
-      toast.error(errorMessage)
+    if (isNewQuiz) {
+      await createQuizMutation.mutateAsync(orderedQuestionsQuiz)
+    } else {
+      await updateQuizMutation.mutateAsync({ quizId: quiz.id, data: orderedQuestionsQuiz })
     }
+
+    navigate({ to: appRoutes.quizzes })
   }
 
   return (

@@ -1,5 +1,5 @@
 import QuizForm from "@/components/quiz/quiz-form/QuizForm"
-import { Heading } from "lucide-react"
+import Heading from "@/components/ui/Heading"
 import { FC } from "react"
 
 const QuizBuilderPage: FC = () => {
