@@ -4,10 +4,11 @@ import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router"
 import { appRoutes } from "@/config/routes.config"
 import { useQuizForm } from "@/hooks/useQuizForm"
 import { useQuizMutations } from "@/hooks/useQuizMutations"
-import { IQuizFormState } from "@/types/quiz/quiz.types"
+import { IQuiz, IQuizFormState } from "@/types/quiz/quiz.types"
 import FormField from "@/components/ui/FormField"
 import FormQuestion from "./question/FormQuestion"
 import Button from "@/components/ui/Button"
+import FormErrors from "@/components/common/FormErrors"
 
 const QuizForm: FC = () => {
   const params = useParams({ strict: false })
@@ -27,13 +28,16 @@ const QuizForm: FC = () => {
   const { updateQuizMutation, createQuizMutation } = useQuizMutations()
 
   const onSubmit: SubmitHandler<IQuizFormState> = async (data) => {
-    const orderedQuestionsQuiz: IQuizFormState = {
+    const orderedQuestionsQuiz: IQuizFormState | IQuiz = {
+      id: isNewQuiz ? undefined : quiz.id,
       ...data,
       questions: data.questions.map((q, i) => ({
         ...q,
         order: i + 1,
+        quiz_id: isNewQuiz ? undefined : quiz.id,
       })),
     }
+    console.log("orderedQuestionsQuiz:", orderedQuestionsQuiz)
 
     if (isNewQuiz) {
       await createQuizMutation.mutateAsync(orderedQuestionsQuiz)
@@ -89,10 +93,13 @@ const QuizForm: FC = () => {
         Add Question
       </Button>
 
+      <FormErrors errors={errors.questions as any} />
+
       <Button
         type="submit"
         className="self-center w-1/12"
         disabled={createQuizMutation.isPending || updateQuizMutation.isPending}
+        onClick={() => console.log(" errors:", errors)}
       >
         {isNewQuiz ? "Create" : "Update"}
       </Button>
