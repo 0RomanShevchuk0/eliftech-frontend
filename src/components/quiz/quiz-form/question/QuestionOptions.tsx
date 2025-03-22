@@ -1,12 +1,12 @@
 import { FC } from "react"
 import { Control, UseFormRegister, useFieldArray } from "react-hook-form"
-import { CreateQuizType } from "../../../../types/quiz/quiz.types"
+import { IQuizFormState } from "../../../../types/quiz/quiz.types"
 import Button from "../../../ui/Button"
 import QuestionOptionItem from "./QuestionOptionItem"
 
 interface IProps {
-  register: UseFormRegister<CreateQuizType>
-  control: Control<CreateQuizType>
+  register: UseFormRegister<IQuizFormState>
+  control: Control<IQuizFormState>
   index: number
 }
 

@@ -1,5 +1,5 @@
 import { QuestionType } from "./enums"
-import { ICreateQuizOption, IQuestionOption } from "./question-option.types"
+import { IOptionFormState, IQuestionOption } from "./question-option.types"
 
 export interface IQuestion {
   id: string
@@ -12,6 +12,6 @@ export interface IQuestion {
   options: IQuestionOption[]
 }
 
-export interface ICreateQuizQuestion extends Omit<IQuestion, "id" | "quiz_id" | "options"> {
-  options?: ICreateQuizOption[]
+export interface IQuestionFormState extends Omit<IQuestion, "id" | "quiz_id" | "options"> {
+  options?: IOptionFormState[]
 }

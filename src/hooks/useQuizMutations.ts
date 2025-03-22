@@ -1,14 +1,14 @@
 import { useMutation } from "@tanstack/react-query"
-import { CreateQuizType } from "../types/quiz/quiz.types"
+import { IQuizFormState } from "../types/quiz/quiz.types"
 import { quizzesService } from "../services/quizzes.service"
 
 export const useQuizMutations = () => {
   const createQuizMutation = useMutation({
-    mutationFn: (data: CreateQuizType) => quizzesService.createQuiz(data),
+    mutationFn: (data: IQuizFormState) => quizzesService.createQuiz(data),
   })
 
   const updateQuizMutation = useMutation({
-    mutationFn: ({ quizId, data }: { quizId: string; data: CreateQuizType }) =>
+    mutationFn: ({ quizId, data }: { quizId: string; data: IQuizFormState }) =>
       quizzesService.updateQuiz(quizId, data),
   })
 

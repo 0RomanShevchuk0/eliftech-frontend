@@ -1,8 +1,8 @@
 import { useFieldArray, useForm } from "react-hook-form"
-import { CreateQuizType, IQuiz, IQuizResponse } from "../types/quiz/quiz.types"
+import { IQuizFormState, IQuiz, IQuizResponse } from "../types/quiz/quiz.types"
 
 export const useQuizForm = (quiz: IQuiz | IQuizResponse | null | undefined) => {
-  const formMethods = useForm<CreateQuizType | IQuiz>({
+  const formMethods = useForm<IQuizFormState | IQuiz>({
     values: !quiz?.id
       ? undefined
       : {

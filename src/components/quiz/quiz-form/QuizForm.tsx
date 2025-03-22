@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { SubmitHandler } from "react-hook-form"
-import { CreateQuizType } from "../../../types/quiz/quiz.types"
+import { IQuizFormState } from "../../../types/quiz/quiz.types"
 import FormField from "../../ui/FormField"
 import Button from "../../ui/Button"
 import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router"
@@ -27,7 +27,7 @@ const QuizForm: FC = () => {
 
   const { updateQuizMutation, createQuizMutation } = useQuizMutations()
 
-  const onSubmit: SubmitHandler<CreateQuizType> = async (data) => {
+  const onSubmit: SubmitHandler<IQuizFormState> = async (data) => {
     try {
       let toastMessage = "Quiz successfully created!"
       if (isNewQuiz) {

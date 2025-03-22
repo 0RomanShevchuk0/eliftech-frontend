@@ -11,4 +11,4 @@ export interface IAnswer {
   selected_options?: IQuestionOption[]
 }
 
-export type AnswerFormStateType = Omit<IAnswer, "id">
+export type IAnswerFormState = Omit<IAnswer, "id">

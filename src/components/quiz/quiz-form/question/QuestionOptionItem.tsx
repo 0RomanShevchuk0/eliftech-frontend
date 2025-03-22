@@ -1,11 +1,11 @@
 import { FC } from "react"
 import { UseFieldArrayRemove, UseFormRegister } from "react-hook-form"
-import { CreateQuizType } from "../../../../types/quiz/quiz.types"
+import { IQuizFormState } from "../../../../types/quiz/quiz.types"
 import Button from "../../../ui/Button"
 import Input from "../../../ui/Input"
 
 interface IProps {
-  register: UseFormRegister<CreateQuizType>
+  register: UseFormRegister<IQuizFormState>
   removeOption: UseFieldArrayRemove
   questionIndex: number
   optionIndex: number

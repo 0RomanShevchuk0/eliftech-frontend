@@ -1,4 +1,4 @@
-import { IAnswer } from "./answer.types"
+import { IAnswer, IAnswerFormState } from "./answer.types"
 
 export interface IResponse {
   id: string
@@ -9,4 +9,6 @@ export interface IResponse {
   answers: IAnswer[]
 }
 
-export type AnswerFormStateType = Omit<IResponse, "id">
+export interface IResponseFormState extends Omit<IResponse, "id" | "answers"> {
+  answers: IAnswerFormState[]
+}

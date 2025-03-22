@@ -1,5 +1,5 @@
 import { PaginationParamsType } from "../pagination"
-import { ICreateQuizQuestion, IQuestion } from "./question/question.types"
+import { IQuestionFormState, IQuestion } from "./question/question.types"
 
 export interface IQuiz {
   id: string
@@ -8,8 +8,8 @@ export interface IQuiz {
   questions: IQuestion[]
 }
 
-export interface CreateQuizType extends Omit<IQuiz, "id" | "questions"> {
-  questions: ICreateQuizQuestion[]
+export interface IQuizFormState extends Omit<IQuiz, "id" | "questions"> {
+  questions: IQuestionFormState[]
 }
 
 export interface IQuizResponse extends IQuiz {

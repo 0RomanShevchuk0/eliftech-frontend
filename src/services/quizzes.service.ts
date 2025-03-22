@@ -1,5 +1,5 @@
 import { axiosClassic } from "../api"
-import { CreateQuizType, IQuizResponse } from "../types/quiz/quiz.types"
+import { IQuizFormState, IQuizResponse } from "../types/quiz/quiz.types"
 
 class QuizzesService {
   private BASE_URL = "/quizzes"
@@ -23,12 +23,12 @@ class QuizzesService {
     return response
   }
 
-  createQuiz = async (quiz: CreateQuizType) => {
+  createQuiz = async (quiz: IQuizFormState) => {
     const response = await axiosClassic.post(this.BASE_URL, quiz)
     return response
   }
 
-  updateQuiz = async (id: string, quiz: CreateQuizType) => {
+  updateQuiz = async (id: string, quiz: IQuizFormState) => {
     const response = await axiosClassic.patch(`${this.BASE_URL}/${id}`, quiz)
     return response
   }

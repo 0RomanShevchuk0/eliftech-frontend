@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { Control, UseFieldArrayReturn, UseFormRegister, useWatch } from "react-hook-form"
-import { CreateQuizType } from "../../../../types/quiz/quiz.types"
+import { IQuizFormState } from "../../../../types/quiz/quiz.types"
 import QuestionOptions from "./QuestionOptions"
 import Input from "../../../ui/Input"
 import Select from "../../../ui/Select"
@@ -8,10 +8,10 @@ import Button from "../../../ui/Button"
 import { QuestionTypesEnum } from "../../../../types/quiz/question/enums"
 
 interface IProps {
-  register: UseFormRegister<CreateQuizType>
-  control: Control<CreateQuizType>
+  register: UseFormRegister<IQuizFormState>
+  control: Control<IQuizFormState>
   index: number
-  questionsFieldArray: UseFieldArrayReturn<CreateQuizType, "questions", "id">
+  questionsFieldArray: UseFieldArrayReturn<IQuizFormState, "questions", "id">
 }
 
 const questionTypeOptions = [
