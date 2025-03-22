@@ -1,60 +1,52 @@
 import { FC } from "react"
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
-import { CreateQuizType, IQuiz } from "../../../types/quiz/quiz.types"
+import { SubmitHandler } from "react-hook-form"
+import { CreateQuizType } from "../../../types/quiz/quiz.types"
 import FormField from "../../ui/FormField"
 import Button from "../../ui/Button"
-import { useMutation } from "@tanstack/react-query"
-import { quizzesService } from "../../../services/quizzes.service"
 import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router"
 import { appRoutes } from "../../../config/routes.config"
 import { toast } from "react-hot-toast"
 import FormQuestion from "./question/FormQuestion"
-import { HTTP_STATUS } from "../../../constants/httpStatuses"
+import { useQuizForm } from "../../../hooks/useQuizForm"
+import { useQuizMutations } from "../../../hooks/useQuizMutations"
 
 const QuizForm: FC = () => {
-  const { quizId } = useParams({ strict: false })
-  const quiz = quizId ? useLoaderData({ from: appRoutes.quizBuilderQuizId }) : null
+  const params = useParams({ strict: false })
+  const quiz = params.quizId ? useLoaderData({ from: appRoutes.quizBuilderQuizId })?.data : null
+  const isNewQuiz = !quiz?.id
+
+  const navigate = useNavigate()
 
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateQuizType | IQuiz>({
-    values: quiz?.data,
-  })
+    questionsFieldArray,
+  } = useQuizForm(quiz)
 
-  const quizMutation = useMutation({
-    mutationFn: (data: CreateQuizType) => quizzesService.createQuiz(data),
-  })
-
-  // TODO: add update func
-
-  const navigate = useNavigate()
+  const { updateQuizMutation, createQuizMutation } = useQuizMutations()
 
   const onSubmit: SubmitHandler<CreateQuizType> = async (data) => {
-    console.log(data)
-
     try {
-      const { status } = await quizMutation.mutateAsync(data)
-      if (status === HTTP_STATUS.CREATED_201) {
-        toast.success("Quiz successfully created!")
-        navigate({ to: appRoutes.quizzes })
+      let toastMessage = "Quiz successfully created!"
+      if (isNewQuiz) {
+        await createQuizMutation.mutateAsync(data)
+      } else {
+        toastMessage = "Quiz successfully updated!"
+
+        await updateQuizMutation.mutateAsync({ quizId: quiz.id, data })
       }
+
+      toast.success(toastMessage)
+
+      navigate({ to: appRoutes.quizzes })
     } catch (error) {
-      console.error("Error creating quiz")
-      toast.error("Error creating quiz")
+      const errorMessage = `Error ${isNewQuiz ? "creating" : "updating"} quiz`
+      console.error(errorMessage, error)
+      toast.error(errorMessage)
     }
   }
-
-  const questionsFieldArray = useFieldArray({
-    name: "questions",
-    control: control,
-    rules: {
-      minLength: 1,
-      required: true,
-    },
-  })
 
   return (
     <form
@@ -101,8 +93,12 @@ const QuizForm: FC = () => {
         Add Question
       </Button>
 
-      <Button type="submit" className="self-center w-1/12" disabled={quizMutation.isPending}>
-        Submit
+      <Button
+        type="submit"
+        className="self-center w-1/12"
+        disabled={createQuizMutation.isPending || updateQuizMutation.isPending}
+      >
+        {isNewQuiz ? "Create" : "Update"}
       </Button>
     </form>
   )

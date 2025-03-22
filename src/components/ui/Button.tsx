@@ -24,8 +24,8 @@ const Button: FC<ButtonProps> = ({ children, className, variant = "primary", ...
       className={clsx(
         "px-4 py-2 rounded-md transition-colors cursor-pointer",
         variantStyles[variant],
-        props.disabled && disabledStyles,
-        className
+        className,
+        props.disabled && disabledStyles
       )}
     >
       {children}

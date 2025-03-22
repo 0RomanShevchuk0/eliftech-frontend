@@ -1,5 +1,5 @@
 import { axiosClassic } from "../api"
-import { IQuiz, CreateQuizType, IQuizResponse } from "../types/quiz/quiz.types"
+import { CreateQuizType, IQuizResponse } from "../types/quiz/quiz.types"
 
 class QuizzesService {
   private BASE_URL = "/quizzes"
@@ -19,7 +19,7 @@ class QuizzesService {
   }
 
   getQuizById = async (id: string) => {
-    const response = await axiosClassic.get<IQuiz>(`${this.BASE_URL}/${id}`)
+    const response = await axiosClassic.get<IQuizResponse>(`${this.BASE_URL}/${id}`)
     return response
   }
 
