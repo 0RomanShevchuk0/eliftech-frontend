@@ -19,7 +19,7 @@ const QuizResponseReviewPage: FC = () => {
 
   return (
     <div className="text-start">
-      <QuizResponseFormHeader quiz={quiz} completionTime={10} />
+      <QuizResponseFormHeader quiz={quiz} completionTime={response.completion_time} />
       <QuizResponseForm quiz={quiz} response={response} readonly />
     </div>
   )
