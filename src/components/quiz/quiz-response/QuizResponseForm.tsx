@@ -89,7 +89,6 @@ const QuizResponseForm: FC<IProps> = memo(
         })),
       }
       const res = await createResposneMutation.mutateAsync(responseData)
-      console.log(" constonSubmit:SubmitHandler<IFormFields>= res:", res)
       navigate({ to: `/quiz-response-review/${res.data.quiz_id}/${res.data.id}` })
     }
 
