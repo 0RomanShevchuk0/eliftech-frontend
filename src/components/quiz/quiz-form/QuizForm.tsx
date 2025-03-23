@@ -37,7 +37,6 @@ const QuizForm: FC = () => {
         quiz_id: isNewQuiz ? undefined : quiz.id,
       })),
     }
-    console.log("orderedQuestionsQuiz:", orderedQuestionsQuiz)
 
     if (isNewQuiz) {
       await createQuizMutation.mutateAsync(orderedQuestionsQuiz)

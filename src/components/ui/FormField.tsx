@@ -4,7 +4,7 @@ import { UseFormRegisterReturn, FieldError } from "react-hook-form"
 
 interface FormFieldProps {
   label: string
-  type: "text" | "password" | "email" | "date" | "color" | "select"
+  type: "text" | "password" | "email" | "date" | "color"
   register: UseFormRegisterReturn
   error?: FieldError
 }

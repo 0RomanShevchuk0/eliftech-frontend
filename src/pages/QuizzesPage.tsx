@@ -9,16 +9,10 @@ import { appRoutes } from "@/config/routes.config"
 import Heading from "@/components/ui/Heading"
 
 const QuizzesPage: FC = () => {
-  const {
-    data: response,
-    isLoading,
-    // error,
-  } = useQuery({
+  const { data: response, isLoading } = useQuery({
     queryKey: [appQueries.quizzes],
     queryFn: () => quizzesService.getQuizzes(),
-    retry: false,
   })
-  console.log("response:", response)
 
   if (isLoading) {
     return "Loading..."

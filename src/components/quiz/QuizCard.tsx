@@ -29,7 +29,10 @@ const QuizCard: FC<{ quiz: IQuizResponse }> = ({ quiz }) => {
   })
 
   return (
-    <div className="flex flex-col border-1 text-start min-h-40 justify-between py-2 px-3">
+    <div
+      className="flex flex-col border-1 text-start min-h-40 justify-between py-2 px-3 cursor-pointer"
+      onClick={() => navigate({ to: `/quiz-response/${quiz.id}` })}
+    >
       <div className="flex justify-between w-full">
         <div>
           <div>{quiz.name}</div>
@@ -41,10 +44,20 @@ const QuizCard: FC<{ quiz: IQuizResponse }> = ({ quiz }) => {
             <img src={OptionsIcon} alt="options" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => navigate({ to: `/quiz-builder/${quiz.id}` })}>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation()
+                navigate({ to: `/quiz-builder/${quiz.id}` })
+              }}
+            >
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={async () => await quizDeleteMutation.mutateAsync(quiz.id)}>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation()
+                quizDeleteMutation.mutateAsync(quiz.id)
+              }}
+            >
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

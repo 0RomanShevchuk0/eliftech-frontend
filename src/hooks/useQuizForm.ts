@@ -24,7 +24,7 @@ const quizSchema: z.ZodSchema<IQuizFormState> = z.object({
           .array(
             z.object({
               id: z.string().optional(),
-              text: z.string().min(3, "Option name must be at least 3 characters long"),
+              text: z.string().min(1, "Option name must be at least 1 characters long"),
               question_id: z.string().optional(),
             })
           )
@@ -47,7 +47,6 @@ const quizSchema: z.ZodSchema<IQuizFormState> = z.object({
 export const useQuizForm = (quiz: IQuiz | IQuizResponse | null | undefined) => {
   const defaultValues: IQuizFormState | undefined = quiz?.id
     ? {
-        // id: quiz.id,
         name: quiz.name,
         description: quiz.description,
         questions: quiz.questions.map((q) => ({

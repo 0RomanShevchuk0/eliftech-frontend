@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { appRoutes } from "@/config/routes.config"
-import QuizBuilderPage from "@/pages/QuizBuilderPage"
+import QuizResponsePage from "@/pages/QuizResponsePage"
 import { quizzesService } from "@/services/quizzes.service"
 import { safeApiRequest } from "@/utils/safe-request"
+import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute(appRoutes.quizBuilderQuizId)({
-  component: QuizBuilderPage,
+export const Route = createFileRoute(appRoutes.quizResponseQuizId)({
+  component: QuizResponsePage,
   loader: async ({ params }) => {
     return safeApiRequest(() => quizzesService.getQuizById(params.quizId))
   },

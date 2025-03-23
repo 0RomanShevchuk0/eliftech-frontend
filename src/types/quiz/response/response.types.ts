@@ -2,8 +2,9 @@ import { IAnswer, IAnswerFormState } from "./answer.types"
 
 export interface IResponse {
   id: string
-  title: string
-  order: number
+	
+  completion_time: number
+  submitted_at: Date
 
   quiz_id: string
   answers: IAnswer[]

@@ -3,7 +3,6 @@ import { IQuestionOption } from "../question/question-option.types"
 export interface IAnswer {
   id: string
   text: string
-  order: number
 
   question_id: string
   response_id: string
@@ -11,4 +10,6 @@ export interface IAnswer {
   selected_options?: IQuestionOption[]
 }
 
-export type IAnswerFormState = Omit<IAnswer, "id">
+export interface IAnswerFormState extends Omit<IAnswer, "id" | "response_id" | "selected_options"> {
+  selected_options: string[]
+}
