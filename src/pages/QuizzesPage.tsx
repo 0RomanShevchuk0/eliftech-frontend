@@ -11,14 +11,14 @@ import Heading from "@/components/ui/Heading"
 const QuizzesPage: FC = () => {
   const { data: response, isLoading } = useQuery({
     queryKey: [appQueries.quizzes],
-    queryFn: () => quizzesService.getQuizzes(),
+    queryFn: () => quizzesService.getQuizzes({ page: 1, limit: 10 }),
   })
 
   if (isLoading) {
     return "Loading..."
   }
 
-  const Cards = response?.data.map((q) => <QuizCard key={q.id} quiz={q} />)
+  const Cards = response?.data.items.map((q) => <QuizCard key={q.id} quiz={q} />)
 
   return (
     <div>

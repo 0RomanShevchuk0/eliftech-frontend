@@ -1,6 +1,5 @@
 import { axiosClassic } from "@/api"
-import { IQuizResponse } from "@/types/quiz/quiz.types"
-import { IResponseFormState } from "@/types/quiz/response/response.types"
+import { IResponse, IResponseFormState } from "@/types/quiz/response/response.types"
 
 class QuizResponsesService {
   #getBaseUrl = (quizId: string) => {
@@ -9,13 +8,19 @@ class QuizResponsesService {
 
   getQuizResponses = async (quizId: string) => {
     const apiUrl = this.#getBaseUrl(quizId)
-    const response = await axiosClassic.get<IQuizResponse[]>(apiUrl)
+    const response = await axiosClassic.get<IResponse[]>(apiUrl)
+    return response
+  }
+
+  getQuizResponseByid = async (quizId: string, responseId: string) => {
+    const apiUrl = `${this.#getBaseUrl(quizId)}/${responseId}`
+    const response = await axiosClassic.get<IResponse>(apiUrl)
     return response
   }
 
   createQuizResponse = async (data: IResponseFormState) => {
     const apiUrl = this.#getBaseUrl(data.quiz_id)
-    const response = await axiosClassic.post(apiUrl, data)
+    const response = await axiosClassic.post<IResponse>(apiUrl, data)
     return response
   }
 

@@ -12,7 +12,7 @@ export interface IQuizFormState extends Omit<IQuiz, "id" | "questions"> {
   questions: IQuestionFormState[]
 }
 
-export interface IQuizResponse extends IQuiz {
+export interface IQuizWithCount extends IQuiz {
   _count: {
     responses: number
     questions: number

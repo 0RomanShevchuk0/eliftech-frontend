@@ -16,6 +16,7 @@ import { Route as QuizBuilderImport } from './routes/quiz-builder'
 import { Route as IndexImport } from './routes/index'
 import { Route as QuizResponseQuizIdImport } from './routes/quiz-response.$quizId'
 import { Route as QuizBuilderQuizIdImport } from './routes/quiz-builder.$quizId'
+import { Route as QuizResponseReviewQuizIdResponseIdImport } from './routes/quiz-response-review.$quizId.$responseId'
 
 // Create/Update Routes
 
@@ -48,6 +49,13 @@ const QuizBuilderQuizIdRoute = QuizBuilderQuizIdImport.update({
   path: '/$quizId',
   getParentRoute: () => QuizBuilderRoute,
 } as any)
+
+const QuizResponseReviewQuizIdResponseIdRoute =
+  QuizResponseReviewQuizIdResponseIdImport.update({
+    id: '/quiz-response-review/$quizId/$responseId',
+    path: '/quiz-response-review/$quizId/$responseId',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -88,6 +96,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuizResponseQuizIdImport
       parentRoute: typeof rootRoute
     }
+    '/quiz-response-review/$quizId/$responseId': {
+      id: '/quiz-response-review/$quizId/$responseId'
+      path: '/quiz-response-review/$quizId/$responseId'
+      fullPath: '/quiz-response-review/$quizId/$responseId'
+      preLoaderRoute: typeof QuizResponseReviewQuizIdResponseIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -111,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/quizzes': typeof QuizzesRoute
   '/quiz-builder/$quizId': typeof QuizBuilderQuizIdRoute
   '/quiz-response/$quizId': typeof QuizResponseQuizIdRoute
+  '/quiz-response-review/$quizId/$responseId': typeof QuizResponseReviewQuizIdResponseIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -119,6 +135,7 @@ export interface FileRoutesByTo {
   '/quizzes': typeof QuizzesRoute
   '/quiz-builder/$quizId': typeof QuizBuilderQuizIdRoute
   '/quiz-response/$quizId': typeof QuizResponseQuizIdRoute
+  '/quiz-response-review/$quizId/$responseId': typeof QuizResponseReviewQuizIdResponseIdRoute
 }
 
 export interface FileRoutesById {
@@ -128,6 +145,7 @@ export interface FileRoutesById {
   '/quizzes': typeof QuizzesRoute
   '/quiz-builder/$quizId': typeof QuizBuilderQuizIdRoute
   '/quiz-response/$quizId': typeof QuizResponseQuizIdRoute
+  '/quiz-response-review/$quizId/$responseId': typeof QuizResponseReviewQuizIdResponseIdRoute
 }
 
 export interface FileRouteTypes {
@@ -138,6 +156,7 @@ export interface FileRouteTypes {
     | '/quizzes'
     | '/quiz-builder/$quizId'
     | '/quiz-response/$quizId'
+    | '/quiz-response-review/$quizId/$responseId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -145,6 +164,7 @@ export interface FileRouteTypes {
     | '/quizzes'
     | '/quiz-builder/$quizId'
     | '/quiz-response/$quizId'
+    | '/quiz-response-review/$quizId/$responseId'
   id:
     | '__root__'
     | '/'
@@ -152,6 +172,7 @@ export interface FileRouteTypes {
     | '/quizzes'
     | '/quiz-builder/$quizId'
     | '/quiz-response/$quizId'
+    | '/quiz-response-review/$quizId/$responseId'
   fileRoutesById: FileRoutesById
 }
 
@@ -160,6 +181,7 @@ export interface RootRouteChildren {
   QuizBuilderRoute: typeof QuizBuilderRouteWithChildren
   QuizzesRoute: typeof QuizzesRoute
   QuizResponseQuizIdRoute: typeof QuizResponseQuizIdRoute
+  QuizResponseReviewQuizIdResponseIdRoute: typeof QuizResponseReviewQuizIdResponseIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -167,6 +189,8 @@ const rootRouteChildren: RootRouteChildren = {
   QuizBuilderRoute: QuizBuilderRouteWithChildren,
   QuizzesRoute: QuizzesRoute,
   QuizResponseQuizIdRoute: QuizResponseQuizIdRoute,
+  QuizResponseReviewQuizIdResponseIdRoute:
+    QuizResponseReviewQuizIdResponseIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -182,7 +206,8 @@ export const routeTree = rootRoute
         "/",
         "/quiz-builder",
         "/quizzes",
-        "/quiz-response/$quizId"
+        "/quiz-response/$quizId",
+        "/quiz-response-review/$quizId/$responseId"
       ]
     },
     "/": {
@@ -203,6 +228,9 @@ export const routeTree = rootRoute
     },
     "/quiz-response/$quizId": {
       "filePath": "quiz-response.$quizId.tsx"
+    },
+    "/quiz-response-review/$quizId/$responseId": {
+      "filePath": "quiz-response-review.$quizId.$responseId.tsx"
     }
   }
 }

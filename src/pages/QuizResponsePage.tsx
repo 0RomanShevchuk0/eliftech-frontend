@@ -1,7 +1,7 @@
 import QuizResponseForm from "@/components/quiz/quiz-response/QuizResponseForm"
+import QuizResponseFormHeader from "@/components/quiz/quiz-response/QuizResponseFormHeader"
 import Heading from "@/components/ui/Heading"
 import { appRoutes } from "@/config/routes.config"
-import { formatDuration } from "@/utils/format-duration"
 import { useLoaderData } from "@tanstack/react-router"
 import { FC, useState, useEffect, useRef } from "react"
 
@@ -29,17 +29,7 @@ const QuizResponsePage: FC = () => {
 
   return (
     <div className="text-start">
-      <Heading>{quiz.name} Response</Heading>
-      <p>{quiz.description}</p>
-      <hr className="my-4 border-gray-300" />
-
-      <div className="flex items-center justify-between">
-        <Heading level={2} className="mt-4">
-          Questions
-        </Heading>
-        <p>Completion Time: {formatDuration(completionTime)}</p>
-      </div>
-
+      <QuizResponseFormHeader quiz={quiz} completionTime={completionTime} />
       <QuizResponseForm quiz={quiz} completionTimeRef={completionTimeTimeRef} />
     </div>
   )

@@ -4,9 +4,9 @@ import { IAnswerFormState } from "@/types/quiz/response/answer.types"
 import { FieldError, SubmitHandler, useForm } from "react-hook-form"
 import { FC, memo } from "react"
 import { useMutation } from "@tanstack/react-query"
-import { IResponseFormState } from "@/types/quiz/response/response.types"
+import { IResponse, IResponseFormState } from "@/types/quiz/response/response.types"
 import toast from "react-hot-toast"
-import { IQuizResponse } from "@/types/quiz/quiz.types"
+import { IQuizWithCount } from "@/types/quiz/quiz.types"
 import { quizResponsesService } from "@/services/quiz-responses.service"
 import ChoiceQuestionField from "./ChoiceQuestionField"
 import { IQuestion } from "@/types/quiz/question/question.types"
@@ -18,13 +18,37 @@ interface IFormFields {
 }
 
 interface IProps {
-  quiz: IQuizResponse
-  completionTimeRef: React.RefObject<number>
+  quiz: IQuizWithCount
+  completionTimeRef?: React.RefObject<number>
+  readonly?: boolean
+  response?: IResponse
 }
 
 const QuizResponseForm: FC<IProps> = memo(
-  ({ quiz, completionTimeRef }) => {
+  ({ quiz, completionTimeRef, readonly, response }) => {
     const navigate = useNavigate()
+
+    const createResponseAnswers: IAnswerFormState[] = quiz.questions.map((q: IQuestion) => ({
+      question_id: q.id,
+      text: "",
+      selected_options: [],
+    }))
+
+    const reviewResponseAnsers: IAnswerFormState[] = response
+      ? response?.answers.map((a) => {
+          const question = quiz.questions.find((q) => q.id === a.question_id)
+          const options =
+            question?.type === "SINGLE_CHOICE"
+              ? (a.selected_options?.[0].id as any)
+              : a.selected_options?.map((o) => o.id)
+
+          return {
+            question_id: a.question_id,
+            text: a.text,
+            selected_options: options || [],
+          }
+        })
+      : []
 
     const {
       register,
@@ -32,11 +56,7 @@ const QuizResponseForm: FC<IProps> = memo(
       formState: { errors },
     } = useForm<IFormFields>({
       values: {
-        answers: quiz.questions.map((q: IQuestion) => ({
-          question_id: q.id,
-          text: "",
-          selected_options: [],
-        })),
+        answers: response ? reviewResponseAnsers : createResponseAnswers,
       },
     })
 
@@ -53,6 +73,10 @@ const QuizResponseForm: FC<IProps> = memo(
     })
 
     const onSubmit: SubmitHandler<IFormFields> = async (data) => {
+      if (readonly || !completionTimeRef) {
+        console.log("Form is read only!")
+        return
+      }
       const responseData: IResponseFormState = {
         quiz_id: quiz.id,
         completion_time: completionTimeRef.current,
@@ -64,7 +88,9 @@ const QuizResponseForm: FC<IProps> = memo(
             : [o.selected_options],
         })),
       }
-      await createResposneMutation.mutateAsync(responseData)
+      const res = await createResposneMutation.mutateAsync(responseData)
+      console.log(" constonSubmit:SubmitHandler<IFormFields>= res:", res)
+      navigate({ to: `/quiz-response-review/${res.data.quiz_id}/${res.data.id}` })
     }
 
     return (
@@ -77,6 +103,7 @@ const QuizResponseForm: FC<IProps> = memo(
                 type="text"
                 register={register(`answers.${index}.text`, { required: "This field is required" })}
                 error={errors.answers?.[index]?.text as FieldError}
+                readonly={readonly}
               />
             ) : (
               <>
@@ -87,15 +114,18 @@ const QuizResponseForm: FC<IProps> = memo(
                     required: "This field is required",
                   })}
                   error={errors.answers?.[index]?.selected_options as FieldError}
+                  readonly={readonly}
                 />
               </>
             )}
           </div>
         ))}
 
-        <Button type="submit" className="self-center" disabled={createResposneMutation.isPending}>
-          Submit
-        </Button>
+        {!readonly && (
+          <Button type="submit" className="self-center" disabled={createResposneMutation.isPending}>
+            Submit
+          </Button>
+        )}
       </form>
     )
   },

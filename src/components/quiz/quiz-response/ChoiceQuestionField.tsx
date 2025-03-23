@@ -8,6 +8,7 @@ interface IProps {
   register: UseFormRegisterReturn
   index: number
   error?: FieldError
+  readonly?: boolean
 }
 
 const questionInputType: Record<QuestionType, string> = {
@@ -16,13 +17,18 @@ const questionInputType: Record<QuestionType, string> = {
   MULTIPLE_CHOICES: "checkbox",
 }
 
-const ChoiceQuestionField: FC<IProps> = ({ question, error, register, index }) => {
+const ChoiceQuestionField: FC<IProps> = ({ question, error, register, index, readonly }) => {
   return (
     <div className="flex flex-col gap-1">
       <p className="text-gray-700 mb-1 text-md">{`${index + 1}. ${question.title}`}</p>
       {question.options.map((option) => (
         <label key={option.id} className="flex gap-3">
-          <input type={questionInputType[question.type]} value={[option.id]} {...register} />
+          <input
+            type={questionInputType[question.type]}
+            value={[option.id]}
+            {...register}
+            disabled={readonly}
+          />
           {option.text}
         </label>
       ))}

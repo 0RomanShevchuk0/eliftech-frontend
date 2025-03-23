@@ -1,4 +1,4 @@
-import { IQuizResponse } from "@/types/quiz/quiz.types"
+import { IQuizWithCount } from "@/types/quiz/quiz.types"
 import { FC } from "react"
 import {
   DropdownMenu,
@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast"
 import { useNavigate } from "@tanstack/react-router"
 import { appQueries } from "@/config/querues.config"
 
-const QuizCard: FC<{ quiz: IQuizResponse }> = ({ quiz }) => {
+const QuizCard: FC<{ quiz: IQuizWithCount }> = ({ quiz }) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -63,7 +63,10 @@ const QuizCard: FC<{ quiz: IQuizResponse }> = ({ quiz }) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div>Questions: {quiz._count.questions}</div>
+      <div>
+        <div>Questions: {quiz._count.questions}</div>
+        <div>Completions: {quiz._count.responses}</div>
+      </div>
     </div>
   )
 }

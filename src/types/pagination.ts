@@ -1,13 +1,13 @@
 export type PaginationParamsType = {
   page?: number
-  pageSize?: number
+  limit?: number
 }
 
 export type PaginationResponse<T> = {
   hasNextPage: boolean
-  hasPreviousPage: boolean
+  hasPrevPage: boolean
   page: number
-  pageSize: number
+  limit: number
   totalCount: number
   items: T[]
 }

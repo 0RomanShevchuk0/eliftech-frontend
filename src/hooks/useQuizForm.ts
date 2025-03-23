@@ -1,6 +1,6 @@
 import { QuestionTypesEnum } from "./../types/quiz/question/enums"
 import { useFieldArray, useForm } from "react-hook-form"
-import { IQuizFormState, IQuiz, IQuizResponse } from "../types/quiz/quiz.types"
+import { IQuizFormState, IQuiz, IQuizWithCount } from "../types/quiz/quiz.types"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
@@ -45,7 +45,7 @@ const quizSchema: z.ZodSchema<IQuizFormState> = z.object({
     ),
 })
 
-export const useQuizForm = (quiz: IQuiz | IQuizResponse | null | undefined) => {
+export const useQuizForm = (quiz: IQuiz | IQuizWithCount | null | undefined) => {
   const defaultValues: IQuizFormState | undefined = quiz?.id
     ? {
         name: quiz.name,
