@@ -98,7 +98,6 @@ const QuizForm: FC = () => {
         type="submit"
         className="self-center w-1/12"
         disabled={createQuizMutation.isPending || updateQuizMutation.isPending}
-        onClick={() => console.log(" errors:", errors)}
       >
         {isNewQuiz ? "Create" : "Update"}
       </Button>

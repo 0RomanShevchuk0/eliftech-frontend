@@ -3,6 +3,7 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { IQuizFormState, IQuiz, IQuizResponse } from "../types/quiz/quiz.types"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useEffect } from "react"
 
 const quizSchema: z.ZodSchema<IQuizFormState> = z.object({
   id: z.string().optional(),
@@ -74,6 +75,12 @@ export const useQuizForm = (quiz: IQuiz | IQuizResponse | null | undefined) => {
     control: formMethods.control,
     rules: { minLength: 1, required: true },
   })
+
+  useEffect(() => {
+    if (quiz) {
+      formMethods.reset(defaultValues)
+    }
+  }, [quiz])
 
   return { ...formMethods, questionsFieldArray }
 }

@@ -1,12 +1,16 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { IQuizFormState } from "../types/quiz/quiz.types"
 import { quizzesService } from "../services/quizzes.service"
 import { toast } from "react-hot-toast"
+import { appQueries } from "@/config/querues.config"
 
 export const useQuizMutations = () => {
+  const queryClient = useQueryClient()
+
   const createQuizMutation = useMutation({
     mutationFn: (data: IQuizFormState) => quizzesService.createQuiz(data),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [appQueries.quizzes] })
       toast.success("Quiz successfully created!")
     },
     onError: (error) => {
@@ -18,7 +22,8 @@ export const useQuizMutations = () => {
   const updateQuizMutation = useMutation({
     mutationFn: ({ quizId, data }: { quizId: string; data: IQuizFormState }) =>
       quizzesService.updateQuiz(quizId, data),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [appQueries.quizzes] })
       toast.success("Quiz successfully updated!")
     },
     onError: (error) => {

@@ -7,6 +7,7 @@ import { safeApiRequest } from "@/utils/safe-request"
 export const Route = createFileRoute(appRoutes.quizBuilderQuizId)({
   component: QuizBuilderPage,
   loader: async ({ params }) => {
-    return safeApiRequest(() => quizzesService.getQuizById(params.quizId))
+    const response = await safeApiRequest(() => quizzesService.getQuizById(params.quizId))
+		return response
   },
 })
