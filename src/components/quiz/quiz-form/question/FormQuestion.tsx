@@ -3,9 +3,13 @@ import Input from "@/components/ui/Input"
 import Select from "@/components/ui/Select"
 import { QuestionTypesEnum } from "@/types/quiz/question/enums"
 import { IQuizFormState } from "@/types/quiz/quiz.types"
-import { FC } from "react"
+import { FC, useRef } from "react"
 import { Control, UseFieldArrayReturn, UseFormRegister, useWatch } from "react-hook-form"
 import QuestionOptions from "./QuestionOptions"
+import { useDrag, useDrop } from "react-dnd"
+import type { XYCoord } from "dnd-core"
+import { QUIZ_BUILDER_DND_KEYS } from "@/constants/quiz-builder-dnd"
+import { IQuestion } from "@/types/quiz/question/question.types"
 
 interface IProps {
   register: UseFormRegister<IQuizFormState>
@@ -23,11 +27,50 @@ const questionTypeOptions = [
 const FormQuestion: FC<IProps> = ({ register, control, index, questionsFieldArray }) => {
   const watchOutput = useWatch({ name: "questions", control })
 
-  const { remove, fields } = questionsFieldArray
+  const { remove, fields, swap } = questionsFieldArray
   const question = fields[index]
 
+  const dndRef = useRef<HTMLDivElement>(null)
+  const [, drop] = useDrop<{ question: IQuestion }>({
+    accept: QUIZ_BUILDER_DND_KEYS.QUESTION,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    hover(item: { question: IQuestion }, monitor) {
+      if (!dndRef.current) return
+
+      const dragIndex = fields.findIndex((q) => q.id === item.question.id)
+
+      const hoverIndex = index
+
+      if (dragIndex === hoverIndex) return
+
+      const hoverBoundingRect = dndRef.current.getBoundingClientRect()
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      const clientOffset = monitor.getClientOffset()
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
+
+      const movingDown = dragIndex < hoverIndex && hoverClientY > hoverMiddleY
+      const movingUp = dragIndex > hoverIndex && hoverClientY < hoverMiddleY
+
+      if (movingDown || movingUp) {
+        swap(dragIndex, hoverIndex)
+        item.question.order = hoverIndex
+      }
+    },
+  })
+
+  const [, drag] = useDrag({
+    type: QUIZ_BUILDER_DND_KEYS.QUESTION,
+    item: { question },
+  })
+
+  drag(drop(dndRef))
+
   return (
-    <div>
+    <div ref={dndRef} className="bg-amber-500">
       <div key={question.id} className="flex items-end gap-6 w-full">
         <span className="font-semibold">{index + 1}.</span>
         <div className="flex flex-col gap-3 h-full w-full">
