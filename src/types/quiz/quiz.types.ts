@@ -19,4 +19,6 @@ export interface IQuizWithCount extends IQuiz {
   }
 }
 
-export type QuizQueryParamsType = {} & PaginationParamsType
+export type QuizQueryParamsType = {
+  sortBy: string
+} & PaginationParamsType

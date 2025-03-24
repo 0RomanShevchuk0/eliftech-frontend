@@ -70,7 +70,7 @@ const FormQuestion: FC<IProps> = ({ register, control, index, questionsFieldArra
   drag(drop(dndRef))
 
   return (
-    <div ref={dndRef} className="bg-amber-500">
+    <div ref={dndRef}>
       <div key={question.id} className="flex items-end gap-6 w-full">
         <span className="font-semibold">{index + 1}.</span>
         <div className="flex flex-col gap-3 h-full w-full">
