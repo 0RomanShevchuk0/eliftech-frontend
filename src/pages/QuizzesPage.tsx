@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query"
-import { FC, useState } from "react"
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
+import { FC, useEffect, useState } from "react"
 import { Link } from "@tanstack/react-router"
 import { appQueries } from "@/config/querues.config"
 import { quizzesService } from "@/services/quizzes.service"
@@ -9,14 +9,25 @@ import { appRoutes } from "@/config/routes.config"
 import Heading from "@/components/ui/Heading"
 import Select from "@/components/ui/Select"
 import { QUIZZES_SORT_OPTIONS } from "@/constants/quiz.constants"
+import { useInView } from "react-intersection-observer"
+import { IQuizWithCount } from "@/types/quiz/quiz.types"
 
 const QuizzesPage: FC = () => {
+  // const { ref, inView } = useInView()
+  const [page, setPage] = useState(1)
   const [sortBy, setSortBy] = useState(QUIZZES_SORT_OPTIONS[0].value)
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [appQueries.quizzes, sortBy],
-    queryFn: () => quizzesService.getQuizzes({ page: 1, limit: 10, sortBy }),
+    queryKey: [appQueries.quizzes, page, sortBy],
+    queryFn: () => quizzesService.getQuizzes({ page, limit: 10, sortBy }),
   })
+  console.log(" response:", response)
+
+  // useEffect(() => {
+  //   if (inView) {
+  //     fetchNextPage()
+  //   }
+  // }, [fetchNextPage, inView])
 
   if (isLoading) {
     return "Loading..."
