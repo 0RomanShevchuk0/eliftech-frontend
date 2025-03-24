@@ -17,17 +17,16 @@ const QuizzesPage: FC = () => {
     queryKey: [appQueries.quizzes, sortBy],
     queryFn: () => quizzesService.getQuizzes({ page: 1, limit: 10, sortBy }),
   })
-	
+
   if (isLoading) {
-		return "Loading..."
+    return "Loading..."
   }
-	console.log("response:", response?.data.items)
 
   const Cards = response?.data.items.map((q) => <QuizCard key={q.id} quiz={q} />)
 
   return (
     <div className="text-start">
-      <Heading>Quiz Catalog</Heading>	
+      <Heading>Quiz Catalog</Heading>
       <div className="flex justify-between items-center my-4">
         <div className="flex items-center gap-3">
           <span className="shrink-0">Sort by:</span>
