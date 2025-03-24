@@ -26,9 +26,7 @@ const QuizzesPage: FC = () => {
   })
 
   useEffect(() => {
-    console.log("in view")
     if (inView && hasNextPage) {
-      console.log("fetch next page")
       fetchNextPage()
     }
   }, [fetchNextPage, inView])
