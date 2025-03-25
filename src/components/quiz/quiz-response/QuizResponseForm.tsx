@@ -127,7 +127,7 @@ const QuizResponseForm: FC<IProps> = memo(
       </form>
     )
   },
-  (prevProps, nextProps) => prevProps.quiz.id === nextProps.quiz.id
+  (prevProps, nextProps) => prevProps.quiz === nextProps.quiz
 )
 
 export default QuizResponseForm

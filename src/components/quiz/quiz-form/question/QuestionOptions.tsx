@@ -11,14 +11,11 @@ interface IProps {
 }
 
 const QuestionOptions: FC<IProps> = ({ register, control, index }) => {
-  const {
-    fields: options,
-    remove: removeOption,
-    append: addOption,
-  } = useFieldArray({
+  const optionsFieldArray = useFieldArray({
     control,
     name: `questions.${index}.options`,
   })
+  const { fields: options, append: addOption } = optionsFieldArray
 
   return (
     <div className="ml-10">
@@ -30,7 +27,7 @@ const QuestionOptions: FC<IProps> = ({ register, control, index }) => {
             register={register}
             questionIndex={index}
             optionIndex={optionIndex}
-            removeOption={removeOption}
+            optionsFieldArray={optionsFieldArray}
           />
         ))}
       </div>
