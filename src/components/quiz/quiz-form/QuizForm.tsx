@@ -79,7 +79,7 @@ const QuizForm: FC = () => {
 
       <Button
         type="button"
-        variant="secondary"
+        variant="outline"
         onClick={() => {
           questionsFieldArray.append({
             type: "TEXT",

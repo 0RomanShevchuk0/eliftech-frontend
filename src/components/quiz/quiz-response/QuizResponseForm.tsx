@@ -74,7 +74,6 @@ const QuizResponseForm: FC<IProps> = memo(
 
     const onSubmit: SubmitHandler<IFormFields> = async (data) => {
       if (readonly || !completionTimeRef) {
-        console.log("Form is read only!")
         return
       }
       const responseData: IResponseFormState = {

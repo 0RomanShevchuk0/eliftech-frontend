@@ -1,12 +1,20 @@
 import QuizResponseForm from "@/components/quiz/quiz-response/QuizResponseForm"
 import QuizResponseFormHeader from "@/components/quiz/quiz-response/QuizResponseFormHeader"
 import Heading from "@/components/ui/Heading"
+import SpinLoader from "@/components/ui/Loader"
 import { appRoutes } from "@/config/routes.config"
-import { useLoaderData } from "@tanstack/react-router"
+import { quizzesService } from "@/services/quizzes.service"
+import { useQuery } from "@tanstack/react-query"
+import { useParams } from "@tanstack/react-router"
 import { FC, useState, useEffect, useRef } from "react"
 
 const QuizResponsePage: FC = () => {
-  const quiz = useLoaderData({ from: appRoutes.quizResponseQuizId })?.data
+  const { quizId } = useParams({ from: appRoutes.quizResponseQuizId })
+  const { data, isLoading } = useQuery({
+    queryKey: ["quizId", quizId],
+    queryFn: () => quizzesService.getQuizById(quizId),
+  })
+  const quiz = data?.data
 
   const [completionTime, setCompletionTime] = useState(0)
   const completionTimeTimeRef = useRef(completionTime)
@@ -22,6 +30,10 @@ const QuizResponsePage: FC = () => {
 
     return () => clearInterval(interval)
   }, [])
+
+  if (isLoading) {
+    return <SpinLoader />
+  }
 
   if (!quiz?.id) {
     return <Heading level={3}>Quiz not found</Heading>
